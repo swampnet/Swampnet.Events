@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 
 namespace Swampnet.Events
 {
@@ -9,10 +11,11 @@ namespace Swampnet.Events
             TimestampUtc = DateTime.UtcNow;
         }
 
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
 
-        //[JsonConverter(typeof(StringEnumConverter))]
+        [JsonConverter(typeof(StringEnumConverter))]
         public Category Category { get; set; }
+
         public string Summary { get; set; }
         public DateTime TimestampUtc { get; set; }
 

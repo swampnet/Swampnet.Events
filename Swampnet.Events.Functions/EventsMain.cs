@@ -22,7 +22,7 @@ namespace Swampnet.Events.Functions
             log.LogInformation(requestBody);
 
             var e = JsonConvert.DeserializeObject<Event>(requestBody);
-            if (!e.Id.HasValue)
+            if (e.Id == Guid.Empty)
             {
                 e.Id = Guid.NewGuid();
             }
