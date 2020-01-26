@@ -24,9 +24,6 @@ namespace Swampnet.Events.Functions
             var e = JsonConvert.DeserializeObject<Event>(requestBody);
 
             return new OkResult();
-            //return e != null
-            //    ? (ActionResult)new OkObjectResult($"Hello, {e.Summary}")
-            //    : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
         }
 
 
