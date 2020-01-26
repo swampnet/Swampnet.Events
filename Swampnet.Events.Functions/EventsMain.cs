@@ -14,7 +14,7 @@ namespace Swampnet.Events.Functions
     {
         [FunctionName("post-event")]
         public static async Task<IActionResult> PostEvent(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
@@ -29,7 +29,7 @@ namespace Swampnet.Events.Functions
 
         [FunctionName("search")]
         public static async Task<IActionResult> Search(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
             ILogger log)
         {
             await Task.CompletedTask;
