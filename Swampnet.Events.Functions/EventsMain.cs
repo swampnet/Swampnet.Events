@@ -17,18 +17,18 @@ namespace Swampnet.Events.Functions
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
-            string name = req.Query["name"];
-
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            dynamic data = JsonConvert.DeserializeObject(requestBody);
-            name = name ?? data?.name;
 
-            return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+            log.LogInformation(requestBody);
+
+            var e = JsonConvert.DeserializeObject<Event>(requestBody);
+
+            return new OkResult();
+            //return e != null
+            //    ? (ActionResult)new OkObjectResult($"Hello, {e.Summary}")
+            //    : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
         }
+
 
         [FunctionName("search")]
         public static async Task<IActionResult> Search(
@@ -37,14 +37,11 @@ namespace Swampnet.Events.Functions
         {
             await Task.CompletedTask;
 
-            log.LogInformation("C# HTTP trigger function processed a request.");
-
-            string name = req.Query["name"];
-
-
-            return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+            return (ActionResult)new OkObjectResult(new[] {
+                new Event(),
+                new Event(),
+                new Event()
+            });
         }
     }
 }
