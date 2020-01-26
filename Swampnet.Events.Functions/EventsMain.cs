@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Swampnet.Events
+namespace Swampnet.Events.Functions
 {
-    public static class Function1
+    public static class EventsMain
     {
         [FunctionName("post-event")]
         public static async Task<IActionResult> PostEvent(
@@ -24,6 +24,23 @@ namespace Swampnet.Events
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
             name = name ?? data?.name;
+
+            return name != null
+                ? (ActionResult)new OkObjectResult($"Hello, {name}")
+                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
+        }
+
+        [FunctionName("search")]
+        public static async Task<IActionResult> Search(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            await Task.CompletedTask;
+
+            log.LogInformation("C# HTTP trigger function processed a request.");
+
+            string name = req.Query["name"];
+
 
             return name != null
                 ? (ActionResult)new OkObjectResult($"Hello, {name}")
